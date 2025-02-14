@@ -1,0 +1,75 @@
+# Visual Studio
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.nupkg
+*.snupkg
+*.ps1
+*.ps1xml
+*.log
+
+# Debugging
+*.ilk
+*.ipch
+*.iobj
+*.ipdb
+*.tlog
+*.log
+
+# NuGet
+*.nupkg
+project.lock.json
+packages/
+
+# Entity Framework
+*.edmx.diagram
+*.edmx.sql
+
+# ASP.NET temp files
+.nuget/
+serviceFabric/
+PublishProfiles/
+
+# Rider & JetBrains (if using Rider)
+.idea/
+*.sln.iml
+
+# Resharper
+*.DotSettings.user
+
+# Windows specific files
+Thumbs.db
+desktop.ini
+
+# Additional Exclusions
+*.dbmdl
+*.jfm
+.DS_Store
+
+# Azure
+app.publish/
+
+# Log files
+*.log
+
+# Temporary files
+~$*
+*.tmp
+
+swd63apfc2025-0317f4b0a221.json
