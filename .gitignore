@@ -1,0 +1,139 @@
+<<<<<<< HEAD
+# Visual Studio
+.vs/
+
+# User-specific files
+=======
+
+# User-specific files
+*.rsuser
+>>>>>>> recovery-branch
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+<<<<<<< HEAD
+# Build results
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.nupkg
+*.snupkg
+*.ps1
+*.ps1xml
+*.log
+
+# Debugging
+*.ilk
+*.ipch
+*.iobj
+*.ipdb
+*.tlog
+*.log
+
+# NuGet
+*.nupkg
+project.lock.json
+packages/
+
+# Entity Framework
+*.edmx.diagram
+*.edmx.sql
+
+# ASP.NET temp files
+.nuget/
+serviceFabric/
+PublishProfiles/
+
+# Rider & JetBrains (if using Rider)
+.idea/
+*.sln.iml
+
+# Resharper
+*.DotSettings.user
+
+# Windows specific files
+Thumbs.db
+desktop.ini
+
+# Additional Exclusions
+*.dbmdl
+*.jfm
+.DS_Store
+
+# Azure
+app.publish/
+
+# Log files
+*.log
+
+# Temporary files
+~$*
+*.tmp
+
+swd63apfc2025-0317f4b0a221.json
+=======
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Mono auto generated files
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+*.ilk
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+# but not Directory.Build.rsp, as it configures directory-level build defaults
+!Directory.Build.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+
+
+
+
+
+*.DotSettings.user
+
+
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+
+
+
+ 

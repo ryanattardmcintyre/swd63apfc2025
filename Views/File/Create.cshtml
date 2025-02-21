@@ -1,0 +1,20 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<form action="/File/Create" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px; max-width: 400px;">
+
+    <label for="file">Upload File:</label>
+    <input type="file" id="file" name="file" required />
+
+    <label for="recipient">Recipient(s):</label>
+    <input type="text" id="recipient" name="recipient" placeholder="Separate multiple recipients with ;" />
+    <small>To include more than one recipient, use a semicolon (;) as a separator.</small>
+
+    <button type="submit" style="padding: 8px 12px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px;">
+        Upload
+    </button>
+</form>
