@@ -1,0 +1,112 @@
+﻿@model FilesModel
+
+@{
+    ViewData["Title"] = "Files";
+}
+
+<style>
+    .table-container {
+    margin-bottom: 30px;
+    }
+
+    .black-header {
+    background-color: black;
+    color: white;
+    }
+
+    .gray-header {
+    background-color: gray;
+    color: white;
+    }
+
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    }
+
+    th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    }
+
+    th {
+    font-weight: bold;
+    }
+
+    .download-link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    }
+</style>
+
+<div class="table-container">
+    <h2>Uploaded Files</h2>
+    <table>
+        <thead>
+            <tr class="black-header">
+                <th>Filename</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.UploadedFiles != null && Model.UploadedFiles.Any())
+            {
+                @foreach (var file in Model.UploadedFiles)
+                {
+                    <tr>
+                        <td>@file</td>
+                        @{
+                            var link = "https://storage.cloud.google.com/swd63apfc2025ra/" + @file;
+                        }
+
+                        <td><a href="@link" class="download-link">Download</a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">No uploaded files found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container">
+    <h2>Shared Files With Me</h2>
+    <table>
+        <thead>
+            <tr class="gray-header">
+                <th>Filename</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.SharedFiles != null && Model.SharedFiles.Any())
+            {
+                @foreach (var file in Model.SharedFiles)
+                {
+                    <tr>
+                        <td>@file</td>
+
+                        @{
+                            var link = "https://storage.cloud.google.com/swd63apfc2025ra/" + @file;
+                        }
+
+
+                        <td><a href="@link" class="download-link">Download</a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">No shared files found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

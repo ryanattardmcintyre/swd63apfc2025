@@ -66,8 +66,20 @@ namespace PFC2025SWD63A.Repositories
             return await docRef.SetAsync(log);
         }
 
+        public async Task<WriteResult> AddFileToAsShared(string ownerEmail, string recipient, string filename)
+        {
+            DocumentReference docRef = db.Collection("users").Document(recipient).Collection("sharedFiles")
+                .Document(filename);
 
-        public async Task<List<string>> GetAllFilesForUser(string owner)
+            Dictionary<string, object> log = new Dictionary<string, object>
+            {
+                { "fileOwner", ownerEmail },
+                { "sharedOn", Google.Cloud.Firestore.Timestamp.GetCurrentTimestamp() }
+            };
+            return await docRef.SetAsync(log);
+        }
+
+        public async Task<List<string>> GetUploadedFilesForUser(string owner)
         {
             List<string> filenames = new List<string>();
 
@@ -85,5 +97,22 @@ namespace PFC2025SWD63A.Repositories
 
             return filenames;
         }
+
+        public async Task<List<string>> GetSharedFilesForUser(string user)
+        {
+            List<string> filenames = new List<string>();
+
+            QuerySnapshot fileQuerySnapshot =
+                await db.Collection("users").Document(user).Collection("sharedFiles").GetSnapshotAsync();
+
+            foreach (DocumentSnapshot documentSnapshot in fileQuerySnapshot.Documents)
+            {
+                filenames.Add(documentSnapshot.Id);
+            }
+
+            return filenames;
+        }
+
+
     }
 }

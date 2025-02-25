@@ -9,9 +9,6 @@ namespace PFC2025SWD63A
         public static void Main(string[] args)
         {
 
-
-
-           
             var builder = WebApplication.CreateBuilder(args);
 
            string pathToKeys=  builder.Environment.ContentRootPath + "\\swd63apfc2025-0317f4b0a221.json";

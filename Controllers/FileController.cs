@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PFC2025SWD63A.Models;
 using PFC2025SWD63A.Repositories;
 
 namespace PFC2025SWD63A.Controllers
@@ -40,6 +42,8 @@ namespace PFC2025SWD63A.Controllers
             foreach (var r in recipients)
             {
                 await _firestoreRepository.AddUserToFile(owner, r, uniqueFilename, "reader");
+
+                await _firestoreRepository.AddFileToAsShared(owner, r, uniqueFilename);
             }
             await _firestoreRepository.AddUserToFile(owner, owner, uniqueFilename, "owner");
 
@@ -55,7 +59,23 @@ namespace PFC2025SWD63A.Controllers
         }
 
 
-        
+
+        public async Task<IActionResult> Index()
+        {
+            string currentlyLoggedInUser  = User.Claims.FirstOrDefault(x => x.Type.Contains("email")).Value;
+
+
+            var uploadedFiles = await _firestoreRepository.GetUploadedFilesForUser(currentlyLoggedInUser);
+            var sharedFiles = await _firestoreRepository.GetSharedFilesForUser(currentlyLoggedInUser);
+
+            FilesModel mymodel = new FilesModel();
+            mymodel.UploadedFiles = uploadedFiles;
+            mymodel.SharedFiles = sharedFiles;
+
+            return View(mymodel);
+
+        }
+
 
     }
 }
