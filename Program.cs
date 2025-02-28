@@ -39,8 +39,14 @@ namespace PFC2025SWD63A
             string bucketId = builder.Configuration.GetValue<string>("bucketId");
 
 
-            builder.Services.AddScoped<FirestoreRepository>(x=>new FirestoreRepository(projectId));
-            builder.Services.AddScoped<BucketRepository>(x=>new BucketRepository(bucketId));
+            builder.Services.AddScoped(x=>new FirestoreRepository(projectId));
+            builder.Services.AddScoped(x=>new BucketRepository(bucketId));
+
+
+            string connectionRedis = builder.Configuration["RedisConnectionString"];
+            string usernameRedis = builder.Configuration["RedisUsername"];
+            string passwordRedis = builder.Configuration["RedisPassword"];
+            builder.Services.AddScoped(x => new RedisRepository(connectionRedis,usernameRedis, passwordRedis));
 
 
             var app = builder.Build();
