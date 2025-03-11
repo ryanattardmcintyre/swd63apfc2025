@@ -1,3 +1,4 @@
+using Google.Apis.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using PFC2025SWD63A.Repositories;
@@ -33,15 +34,12 @@ namespace PFC2025SWD63A
             builder.Services.AddControllersWithViews();
 
             string projectId = builder.Configuration.GetValue<string>("projectId");
-
-            builder.Services.AddScoped<FirestoreRepository>(x=>new FirestoreRepository(projectId));
-
             string bucketId = builder.Configuration.GetValue<string>("bucketId");
+            string topicId = builder.Configuration.GetValue<string>("topicId");
 
-
+            builder.Services.AddScoped(x=> new PubliserRepository(projectId, topicId));
             builder.Services.AddScoped(x=>new FirestoreRepository(projectId));
             builder.Services.AddScoped(x=>new BucketRepository(bucketId));
-
 
             string connectionRedis = builder.Configuration["RedisConnectionString"];
             string usernameRedis = builder.Configuration["RedisUsername"];

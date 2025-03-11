@@ -25,9 +25,9 @@
                     <ul class="navbar-nav flex-grow-1">
                         @{
 
-                            _redisRepository.AddMenu(new Menu() { Title = "Home", Url = "\\Home", Order = 1 });
-                            _redisRepository.AddMenu(new Menu() { Title = "Upload", Url = "\\File\\Create", Order = 2 });
-                            _redisRepository.AddMenu(new Menu() { Title = "List", Url = "\\File\\Index", Order = 3 });
+                            // _redisRepository.AddMenu(new Menu() { Title = "Home", Url = "\\Home", Order = 1 });
+                            // _redisRepository.AddMenu(new Menu() { Title = "Upload", Url = "\\File\\Create", Order = 2 });
+                            // _redisRepository.AddMenu(new Menu() { Title = "List", Url = "\\File\\Index", Order = 3 });
 
 
                             var menus = _redisRepository.GetMenus().OrderBy(x=>x.Order);
@@ -43,16 +43,6 @@
                     </ul>
                     
                     
-                    
-                    
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
                 </div>
 
                 <div class="ms-auto">
