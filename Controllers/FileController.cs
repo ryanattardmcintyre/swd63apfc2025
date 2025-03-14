@@ -12,9 +12,11 @@ namespace PFC2025SWD63A.Controllers
     {
         private BucketRepository _bucketRepository;
         private FirestoreRepository _firestoreRepository;
-        public FileController(BucketRepository bucketRepository, FirestoreRepository firestoreRepository) {
+        private PublisherRepository _publisherRepository;
+        public FileController(BucketRepository bucketRepository, FirestoreRepository firestoreRepository, PublisherRepository publisherRepository) {
             _bucketRepository = bucketRepository;
             _firestoreRepository = firestoreRepository;
+            _publisherRepository = publisherRepository;
         }
 
         [HttpGet]
@@ -74,6 +76,47 @@ namespace PFC2025SWD63A.Controllers
 
             return View(mymodel);
 
+        }
+
+
+        public async Task<IActionResult> ExportPdf(string fileId)
+        {
+            //1. query the  firestore for details about the file
+            string currentlyLoggedInUser = User.Claims.FirstOrDefault(x => x.Type.Contains("email")).Value;
+            string fileNameToBeRendered = "";
+            List<string> uploadedFiles = await _firestoreRepository.GetUploadedFilesForUser(currentlyLoggedInUser);
+            if(uploadedFiles.Count(x=> x.Contains(fileId))>0)
+            {
+                //file found
+                fileNameToBeRendered = uploadedFiles.SingleOrDefault(x => x.Contains(fileId));
+            }
+            else
+            {
+                List<string> sharedFiles = await _firestoreRepository.GetSharedFilesForUser(currentlyLoggedInUser);
+                if (sharedFiles.Count(x => x.Contains(fileId)) > 0)
+                {
+                    //file found
+                    fileNameToBeRendered = sharedFiles.SingleOrDefault(x => x.Contains(fileId));
+                }
+                else
+                {
+                    TempData["error"] = "File wasn't found";
+                    return RedirectToAction("Index");
+                }
+            }
+
+            //2. after details obtained, we publish to the topic
+            string result = await _publisherRepository.AddToRenderingQueue(currentlyLoggedInUser, fileNameToBeRendered);
+
+            TempData["message"] = "Process started...once it is ready you will be notified";
+            return RedirectToAction("Index");
+        }
+
+
+        public IActionResult Render([FromServices] SubscriberRepository subscriberRepository)
+        {
+            subscriberRepository.PullMessagesSync(true);
+            return Content("done");
         }
 
 

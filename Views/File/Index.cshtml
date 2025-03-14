@@ -61,7 +61,8 @@
                             var link = "https://storage.cloud.google.com/swd63apfc2025ra/" + @file;
                         }
 
-                        <td><a href="@link" class="download-link">Download</a></td>
+                        <td><a href="@link" class="download-link">Download</a>&nbsp;
+                            <a href="/File/ExportPdf?fileId=@file" class="download-link">Export to Pdf</a></td>
                     </tr>
                 }
             }
@@ -97,7 +98,10 @@
                         }
 
 
-                        <td><a href="@link" class="download-link">Download</a></td>
+                        <td>
+                            <a href="@link" class="download-link">Download</a>&nbsp;
+                            <a href="/File/ExportPdf?fileId=@file" class="download-link">Export to Pdf</a>
+                        </td>
                     </tr>
                 }
             }

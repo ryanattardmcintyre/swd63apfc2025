@@ -4,11 +4,11 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace PFC2025SWD63A.Repositories
 {
-    public class PubliserRepository
+    public class PublisherRepository
     {
         string _projectId;
         string _topicId;
-        public PubliserRepository(string projectId, string topicId) 
+        public PublisherRepository(string projectId, string topicId) 
         { 
             _projectId = projectId;
             _topicId = topicId;
