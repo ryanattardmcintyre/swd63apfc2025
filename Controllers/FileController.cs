@@ -67,7 +67,7 @@ namespace PFC2025SWD63A.Controllers
             string currentlyLoggedInUser  = User.Claims.FirstOrDefault(x => x.Type.Contains("email")).Value;
 
 
-            var uploadedFiles = await _firestoreRepository.GetUploadedFilesForUser(currentlyLoggedInUser);
+            List<FileListingViewModel> uploadedFiles = await _firestoreRepository.GetUploadedFilesForUser(currentlyLoggedInUser);
             var sharedFiles = await _firestoreRepository.GetSharedFilesForUser(currentlyLoggedInUser);
 
             FilesModel mymodel = new FilesModel();
@@ -84,11 +84,11 @@ namespace PFC2025SWD63A.Controllers
             //1. query the  firestore for details about the file
             string currentlyLoggedInUser = User.Claims.FirstOrDefault(x => x.Type.Contains("email")).Value;
             string fileNameToBeRendered = "";
-            List<string> uploadedFiles = await _firestoreRepository.GetUploadedFilesForUser(currentlyLoggedInUser);
-            if(uploadedFiles.Count(x=> x.Contains(fileId))>0)
+            List<FileListingViewModel> uploadedFiles = await _firestoreRepository.GetUploadedFilesForUser(currentlyLoggedInUser);
+            if(uploadedFiles.Count(x=> x.Filename.Contains(fileId))>0)
             {
                 //file found
-                fileNameToBeRendered = uploadedFiles.SingleOrDefault(x => x.Contains(fileId));
+                fileNameToBeRendered = uploadedFiles.SingleOrDefault(x => x.Filename.Contains(fileId)).Filename;
             }
             else
             {
@@ -115,7 +115,12 @@ namespace PFC2025SWD63A.Controllers
 
         public IActionResult Render([FromServices] SubscriberRepository subscriberRepository)
         {
-            subscriberRepository.PullMessagesSync(true);
+            subscriberRepository.PullMessagesSync(true); //pull from queue //conversion to pdf
+            //notify the user about the end of the process
+
+            
+
+
             return Content("done");
         }
 

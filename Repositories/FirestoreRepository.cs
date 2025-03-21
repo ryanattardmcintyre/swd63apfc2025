@@ -1,5 +1,6 @@
 ﻿using Google.Cloud.Firestore;
 using PFC2025SWD63A.Models;
+using System.IO.Pipes;
 
 namespace PFC2025SWD63A.Repositories
 {
@@ -79,20 +80,24 @@ namespace PFC2025SWD63A.Repositories
             return await docRef.SetAsync(log);
         }
 
-        public async Task<List<string>> GetUploadedFilesForUser(string owner)
+        public async Task<List<FileListingViewModel>> GetUploadedFilesForUser(string owner)
         {
-            List<string> filenames = new List<string>();
+            List<FileListingViewModel> filenames = new List<FileListingViewModel>();
 
             QuerySnapshot fileQuerySnapshot =
                 await db.Collection("users").Document(owner).Collection("files").GetSnapshotAsync();
             
             foreach (DocumentSnapshot documentSnapshot in fileQuerySnapshot.Documents)
             {
+                FileListingViewModel viewModel = new FileListingViewModel();
+
                 Dictionary<string, object> city = documentSnapshot.ToDictionary();
                 foreach (KeyValuePair<string, object> pair in city)
                 {
-                    if (pair.Key == "filename") filenames.Add(pair.Value.ToString());
+                    if (pair.Key == "filename")  viewModel.Filename=pair.Value.ToString();
+                    if (pair.Key == "pdf") viewModel.PdfFilename = pair.Value.ToString();
                 }
+                filenames.Add(viewModel);
             }
 
             return filenames;
@@ -111,6 +116,21 @@ namespace PFC2025SWD63A.Repositories
             }
 
             return filenames;
+        }
+
+
+        public async Task<WriteResult> MarkPdfComplete(string ownerEmail, string filename)
+        {
+            string filenameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(filename);
+            DocumentReference docRef = db.Collection("users").Document(ownerEmail)
+                                        .Collection("files").Document(filenameWithoutExtension);
+                
+            Dictionary<string, object> log = new Dictionary<string, object>
+            {
+                { "pdf", filenameWithoutExtension+".pdf" }
+            };
+
+            return await docRef.UpdateAsync(log);
         }
 
 

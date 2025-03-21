@@ -2,7 +2,7 @@
 {
     public class FilesModel
     {
-        public List<string> UploadedFiles { get; set; }
+        public List<FileListingViewModel> UploadedFiles { get; set; }
         public List<string> SharedFiles { get; set; }
     }
 }

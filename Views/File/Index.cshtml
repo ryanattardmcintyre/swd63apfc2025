@@ -56,13 +56,24 @@
                 @foreach (var file in Model.UploadedFiles)
                 {
                     <tr>
-                        <td>@file</td>
+                        <td>@file.Filename</td>
                         @{
-                            var link = "https://storage.cloud.google.com/swd63apfc2025ra/" + @file;
+                            var link = "https://storage.cloud.google.com/swd63apfc2025ra/" + @file.Filename;
+
+                            string pdfLink = "";
+                            if(file.PdfFilename != "")
+                                pdfLink = "https://storage.cloud.google.com/swd63apfc2025ra/" + @file.PdfFilename;
                         }
 
                         <td><a href="@link" class="download-link">Download</a>&nbsp;
-                            <a href="/File/ExportPdf?fileId=@file" class="download-link">Export to Pdf</a></td>
+                            <a href="/File/ExportPdf?fileId=@file" class="download-link">Export to Pdf</a>
+                            
+                            @if(pdfLink != "")
+                            {
+                                <a href="@pdfLink">Download pdf</a>
+                            }
+                        
+                        </td>
                     </tr>
                 }
             }

@@ -16,12 +16,16 @@ namespace PFC2025SWD63A.Repositories
         string _topicId;
         string _subscriptionId;
         string _bucketId;
-        public SubscriberRepository(string projectId, string topicId, string subscriptionId, string bucketId)
+
+        FirestoreRepository _firestoreRepository;
+        public SubscriberRepository(string projectId, string topicId, string subscriptionId, 
+            string bucketId, FirestoreRepository fireStoreRepository)
         {
             _bucketId = bucketId;
             _projectId = projectId;
             _topicId = topicId;
             _subscriptionId = subscriptionId;
+            _firestoreRepository = fireStoreRepository;
         }
 
         public void PullMessagesSync(bool acknowledge=true)
@@ -43,13 +47,14 @@ namespace PFC2025SWD63A.Repositories
                     string text = message.Message.Data.ToStringUtf8();
                     dynamic obj = JsonConvert.DeserializeObject(text);
                     string uri = obj.uri;
+                    string user = obj.email;
 
                     // If acknowledgement required, send to server.
                     if (acknowledge)
                     {
                         subscriberClient.Acknowledge(subscriptionName, response.ReceivedMessages.Select(msg => msg.AckId));
                     }
-
+                    
                     var storage = StorageClient.Create();
                     MemoryStream stream = new MemoryStream();
                     storage.DownloadObject(_bucketId, uri, stream);
@@ -59,10 +64,15 @@ namespace PFC2025SWD63A.Repositories
                     string newFilename = System.IO.Path.GetFileNameWithoutExtension(uri) + ".pdf";
 
                     storage.UploadObject(_bucketId, newFilename, "application/octet-stream", msPdf);
+                    //assign permission
+                    //_bucketRepository.AssignPermission(newFilename, user, role.Reader);
 
 
-                    //we send an email?
+                    //we send an email? .........
+                    //suggestion: one can use MailGun ...refer to Mailgun site
+
                     //we add a status field in firestore?
+                    _firestoreRepository.MarkPdfComplete(user, uri).Wait();
                 }
              
             }
