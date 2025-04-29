@@ -8,18 +8,20 @@ namespace PFC2025SWD63A.Repositories
     {
         private IDatabase _database;
         public RedisRepository(string connectionString, string username, string password) {
+            try
+            {
+                var muxer = ConnectionMultiplexer.Connect(
+                        new ConfigurationOptions
+                        {
+                            EndPoints = { { connectionString } },
+                            User = username,
+                            Password = password
+                        }
+                    );
 
-            var muxer = ConnectionMultiplexer.Connect(
-                    new ConfigurationOptions
-                    {
-                        EndPoints = { { connectionString } },
-                        User = username,
-                        Password = password
-                    }
-                );
-
-            _database = muxer.GetDatabase();
-
+                _database = muxer.GetDatabase();
+            }
+            catch { }
 
         }
 
